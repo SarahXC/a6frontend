@@ -44,20 +44,13 @@ router.put(
   [
     userValidator.isUserLoggedIn,
     freetValidator.isFreetExists,
-    tagValidator. 
+    tagValidator.isValidTag, 
   ],
   async (req: Request, res: Response) => {
-    console.log('inside router');
-    const userId = (req.session.userId as string) ?? '';
-    console.log(req.body.politics);
-    const politics = (req.body.politics.toLowerCase() as string == 'true') ? true : false;
-    const entertainment = (req.body.entertainment.toLowerCase() as string == 'true') ? true : false;
-    const sports = (req.body.sports.toLowerCase() as string == 'true') ? true : false;
-    const news = (req.body.news.toLowerCase() as string == 'true') ? true : false;
-    const adjustfeed = await AdjustfeedCollection.updateOneByUserId(userId, politics, entertainment, sports, news);
+    const tag = await TagCollection.updateOne(req.body.freetId, req.body.category);
     res.status(200).json({
-      message: 'Your feed was updated successfully.',
-      freet: util.constructAdjustfeedResponse(adjustfeed)
+      message: 'Your tag was updated successfully.',
+      tag: util.constructTagResponse(tag)
     });
   }
 );

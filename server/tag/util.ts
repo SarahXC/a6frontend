@@ -21,7 +21,7 @@ const constructTagResponse = (tag: HydratedDocument<Tag>): TagResponse => {
   };
   console.log(tagCopy);
   return {
-    post: tagCopy.freetId.toString(), 
+    post: tagCopy.post.freetId.toString(), 
     category: tagCopy.category,
   };
 };
