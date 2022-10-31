@@ -13,7 +13,7 @@
         v-if="$store.state.username === freet.author"
         class="actions"
       >
-        <button
+        <!-- <button
           v-if="editing"
           @click="submitEdit"
         >
@@ -30,7 +30,7 @@
           @click="startEditing"
         >
           ✏️ Edit
-        </button>
+        </button> -->
         <button @click="deleteFreet">
           🗑️ Delete
         </button>
@@ -82,20 +82,20 @@ export default {
     };
   },
   methods: {
-    startEditing() {
-      /**
-       * Enables edit mode on this freet.
-       */
-      this.editing = true; // Keeps track of if a freet is being edited
-      this.draft = this.freet.content; // The content of our current "draft" while being edited
-    },
-    stopEditing() {
-      /**
-       * Disables edit mode on this freet.
-       */
-      this.editing = false;
-      this.draft = this.freet.content;
-    },
+    // startEditing() {
+    //   /**
+    //    * Enables edit mode on this freet.
+    //    */
+    //   this.editing = true; // Keeps track of if a freet is being edited
+    //   this.draft = this.freet.content; // The content of our current "draft" while being edited
+    // },
+    // stopEditing() {
+    //   /**
+    //    * Disables edit mode on this freet.
+    //    */
+    //   this.editing = false;
+    //   this.draft = this.freet.content;
+    // },
     deleteFreet() {
       /**
        * Deletes this freet.
@@ -110,28 +110,28 @@ export default {
       };
       this.request(params);
     },
-    submitEdit() {
-      /**
-       * Updates freet to have the submitted draft content.
-       */
-      if (this.freet.content === this.draft) {
-        const error = 'Error: Edited freet content should be different than current freet content.';
-        this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
-        setTimeout(() => this.$delete(this.alerts, error), 3000);
-        return;
-      }
+    // submitEdit() {
+    //   /**
+    //    * Updates freet to have the submitted draft content.
+    //    */
+    //   if (this.freet.content === this.draft) {
+    //     const error = 'Error: Edited freet content should be different than current freet content.';
+    //     this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
+    //     setTimeout(() => this.$delete(this.alerts, error), 3000);
+    //     return;
+    //   }
 
-      const params = {
-        method: 'PATCH',
-        message: 'Successfully edited freet!',
-        body: JSON.stringify({content: this.draft}),
-        callback: () => {
-          this.$set(this.alerts, params.message, 'success');
-          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
-        }
-      };
-      this.request(params);
-    },
+    //   const params = {
+    //     method: 'PATCH',
+    //     message: 'Successfully edited freet!',
+    //     body: JSON.stringify({content: this.draft}),
+    //     callback: () => {
+    //       this.$set(this.alerts, params.message, 'success');
+    //       setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+    //     }
+    //   };
+    //   this.request(params);
+    // },
     async request(params) {
       /**
        * Submits a request to the freet's endpoint
