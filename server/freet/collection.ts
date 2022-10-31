@@ -2,10 +2,11 @@ import type {HydratedDocument, Types} from 'mongoose';
 import type {Freet} from './model';
 import FreetModel from './model';
 import LikeModel from '../like/model';
+import TagModel from '../tag/model';
 
 import LikeCollection from '../like/collection';
 import UserCollection from '../user/collection';
-import TagModel from '../tag/model';
+import TagCollection from '../tag/collection';
 
 /**
  * This files contains a class that has the functionality to explore freets
@@ -35,11 +36,8 @@ class FreetCollection {
     await freet.save(); // Saves freet to MongoDB
 
     //add the tag
-    const tag = new TagModel({
-      post: freet,
-      category: category,
-    })
-    await tag.save();
+    const tag = await TagCollection.addOne(freet._id, category);
+
     return freet.populate('authorId');
   }
 
@@ -99,6 +97,7 @@ class FreetCollection {
     //sychronization: also delete all the freet's likes
     // const likes = await LikeModel.deleteMany({freetId});
     const freet = await FreetModel.deleteOne({_id: freetId});
+    const tag = await TagCollection.deleteOne(freetId);
     return freet !== null;
   }
 

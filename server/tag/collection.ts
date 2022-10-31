@@ -26,7 +26,7 @@ class TagCollection {
       category: category,
     });
     await tag.save(); 
-    return tag.populate('user'); 
+    return tag.populate('post'); 
   }
 
 
@@ -37,7 +37,6 @@ class TagCollection {
    * @return {Promise<HydratedDocument<Credibility>> | Promise<null> } - The Credibility with the given userId, if any
    */
   static async updateOne(postId: Types.ObjectId | string, newCategory: string): Promise<HydratedDocument<Tag>> {
-    const post = await FreetCollection.findOne(postId);
     const tag = await TagCollection.findOne(postId);
     tag.category = newCategory; 
 
@@ -52,19 +51,19 @@ class TagCollection {
    * @return {Promise<HydratedDocument<Credibility>> | Promise<null> }
    */
    static async findOne(postId: Types.ObjectId | string): Promise<HydratedDocument<Tag>> {
-    const freet = await FreetCollection.findOne(postId);
-    const tag = await TagModel.findOne({post: freet}); 
+    const post = await FreetCollection.findOne(postId);
+    const tag = await TagModel.findOne({post: post}); 
     return tag.populate('post');
   }
 
   /**
-   * Delete a user's Credibility by userId
+   * Delete a user's tag by postId
    *
-   * @param {string} userId - The id of the user to find
+   * @param {string} postId - The id of the post to find
    * @return {Promise<HydratedDocument<Tag>> | Promise<null> }
    */
    static async deleteOne(postId: Types.ObjectId | string): Promise<boolean>  {
-    const post = await TagCollection.findOne(postId);
+    const post = await FreetCollection.findOne(postId);
     const tag = await TagModel.deleteOne({post: post});
     return tag != null; 
   }
