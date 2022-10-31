@@ -1,7 +1,11 @@
 import type {HydratedDocument, Types} from 'mongoose';
 import type {Freet} from './model';
 import FreetModel from './model';
+import LikeModel from '../like/model';
+
+import LikeCollection from '../like/collection';
 import UserCollection from '../user/collection';
+import TagModel from '../tag/model';
 
 /**
  * This files contains a class that has the functionality to explore freets
@@ -19,15 +23,23 @@ class FreetCollection {
    * @param {string} content - The id of the content of the freet
    * @return {Promise<HydratedDocument<Freet>>} - The newly created freet
    */
-  static async addOne(authorId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Freet>> {
+  static async addOne(authorId: Types.ObjectId | string, content: string, category: string): Promise<HydratedDocument<Freet>> {
     const date = new Date();
     const freet = new FreetModel({
       authorId,
       dateCreated: date,
       content,
-      dateModified: date
+      dateModified: date,
+      // numLikes: 0,
     });
     await freet.save(); // Saves freet to MongoDB
+
+    //add the tag
+    const tag = new TagModel({
+      post: freet,
+      category: category,
+    })
+    await tag.save();
     return freet.populate('authorId');
   }
 
@@ -59,7 +71,7 @@ class FreetCollection {
    */
   static async findAllByUsername(username: string): Promise<Array<HydratedDocument<Freet>>> {
     const author = await UserCollection.findOneByUsername(username);
-    return FreetModel.find({authorId: author._id}).sort({dateModified: -1}).populate('authorId');
+    return FreetModel.find({authorId: author._id}).populate('authorId');
   }
 
   /**
@@ -84,6 +96,8 @@ class FreetCollection {
    * @return {Promise<Boolean>} - true if the freet has been deleted, false otherwise
    */
   static async deleteOne(freetId: Types.ObjectId | string): Promise<boolean> {
+    //sychronization: also delete all the freet's likes
+    // const likes = await LikeModel.deleteMany({freetId});
     const freet = await FreetModel.deleteOne({_id: freetId});
     return freet !== null;
   }
@@ -94,6 +108,7 @@ class FreetCollection {
    * @param {string} authorId - The id of author of freets
    */
   static async deleteMany(authorId: Types.ObjectId | string): Promise<void> {
+    //TODO: synchronization delete likes as well
     await FreetModel.deleteMany({authorId});
   }
 }

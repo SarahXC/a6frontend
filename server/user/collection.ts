@@ -1,6 +1,12 @@
 import type {HydratedDocument, Types} from 'mongoose';
 import type {User} from './model';
 import UserModel from './model';
+import CredibilityModel from '../credibility/model';
+
+import CredibilityCollection from '../credibility/collection';
+import LikeCollection from '../like/collection';
+import FreetCollection from '../freet/collection';
+import AdjustfeedCollection from '../adjustfeed/collection';
 
 /**
  * This file contains a class with functionality to interact with users stored
@@ -23,6 +29,9 @@ class UserCollection {
 
     const user = new UserModel({username, password, dateJoined});
     await user.save(); // Saves user to MongoDB
+    //synchronization: also add a credibility score
+    const credibility = await CredibilityCollection.addOneByUserId(user._id); //TODO: bring back
+    const adjustFeed = await AdjustfeedCollection.addOneByUserId(user._id); 
     return user;
   }
 
@@ -67,14 +76,14 @@ class UserCollection {
    * @param {Object} userDetails - An object with the user's updated credentials
    * @return {Promise<HydratedDocument<User>>} - The updated user
    */
-  static async updateOne(userId: Types.ObjectId | string, userDetails: {password?: string; username?: string}): Promise<HydratedDocument<User>> {
+  static async updateOne(userId: Types.ObjectId | string, userDetails: any): Promise<HydratedDocument<User>> {
     const user = await UserModel.findOne({_id: userId});
     if (userDetails.password) {
-      user.password = userDetails.password;
+      user.password = userDetails.password as string;
     }
 
     if (userDetails.username) {
-      user.username = userDetails.username;
+      user.username = userDetails.username as string;
     }
 
     await user.save();
@@ -88,6 +97,11 @@ class UserCollection {
    * @return {Promise<Boolean>} - true if the user has been deleted, false otherwise
    */
   static async deleteOne(userId: Types.ObjectId | string): Promise<boolean> {
+    //synchronizations TODO: bring back
+    const credibility = await CredibilityCollection.deleteOneByUserId(userId); //TODO: bring back
+    const adjustFeed = await AdjustfeedCollection.deleteOneByUserId(userId); 
+    const likes = await LikeCollection.deleteMany(userId);
+    const freets = await FreetCollection.deleteMany(userId);
     const user = await UserModel.deleteOne({_id: userId});
     return user !== null;
   }

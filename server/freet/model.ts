@@ -1,4 +1,4 @@
-import type {Types} from 'mongoose';
+import type {Types, PopulatedDoc, Document} from 'mongoose';
 import {Schema, model} from 'mongoose';
 import type {User} from '../user/model';
 
@@ -14,6 +14,7 @@ export type Freet = {
   dateCreated: Date;
   content: string;
   dateModified: Date;
+  // numLikes: number; 
 };
 
 export type PopulatedFreet = {
@@ -22,6 +23,7 @@ export type PopulatedFreet = {
   dateCreated: Date;
   content: string;
   dateModified: Date;
+  // numLikes: number; 
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -37,19 +39,23 @@ const FreetSchema = new Schema<Freet>({
   },
   // The date the freet was created
   dateCreated: {
-    type: Date,
+    type: Schema.Types.Date,
     required: true
   },
   // The content of the freet
   content: {
-    type: String,
+    type: Schema.Types.String,
     required: true
   },
   // The date the freet was modified
   dateModified: {
-    type: Date,
+    type: Schema.Types.Date,
     required: true
-  }
+  },
+  // numLikes: {
+  //   type: Number,
+  //   required: true
+  // }
 });
 
 const FreetModel = model<Freet>('Freet', FreetSchema);
