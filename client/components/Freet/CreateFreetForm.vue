@@ -12,8 +12,8 @@ export default {
       method: 'POST',
       hasBody: true,
       fields: [
-        {id: 'content', label: 'Content', value: ''}
-        // {id: 'category', label: 'Category', value: ''} //TODO: adding breaks it
+        {id: 'content', label: 'Content', value: ''},
+        {id: 'category', label: 'Category', value: ''} //TODO: adding breaks it
       ],
       title: 'Create a freet',
       refreshFreets: true,

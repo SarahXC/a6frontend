@@ -9,13 +9,13 @@ export default {
   data() {
     return {
       url: '/api/adjustfeeds',
-      method: 'POST',
+      method: 'PUT',
       hasBody: true,
       fields: [
-        {id: 'politics', label: 'Politics', value: ''} 
-        {id: 'entertainment', label: 'Entertainment', value: ''} 
-        {id: 'sports', label: 'Sports', value: ''} 
-        {id: 'news', label: 'News', value: ''} 
+        {id: 'politics', label: 'Politics', value: ''}, //OH HELP
+        {id: 'entertainment', label: 'Entertainment', value: ''}, 
+        {id: 'sports', label: 'Sports', value: ''},
+        {id: 'news', label: 'News', value: ''}
       ],
       title: 'What content would you like to include?',
       refreshFreets: true,
