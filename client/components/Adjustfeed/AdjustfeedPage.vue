@@ -7,18 +7,18 @@
       <header>
         <h2>Set Your Feed</h2>
       </header>
-      <AdjustfeedForm />
+      <CreateAdjustfeedForm />
     </section>
   </main>
 </template>
 
 <script>
-import AdjustfeedForm from '@/components/Adjustfeed/AdjustfeedForm.vue';
+import CreateAdjustfeedForm from '@/components/Adjustfeed/CreateAdjustfeedForm.vue';
 
 export default {
   name: 'AdjustfeedPage',
   components: {
-    AdjustfeedForm,
+    CreateAdjustfeedForm,
   }
 };
 </script>

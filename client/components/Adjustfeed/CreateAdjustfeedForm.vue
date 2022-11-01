@@ -12,12 +12,13 @@ export default {
       method: 'PUT',
       hasBody: true,
       fields: [
-        {id: 'politics', label: 'Politics', value: ''}, //OH HELP
+        {id: 'politics', label: 'Politics', value: ''}, 
         {id: 'entertainment', label: 'Entertainment', value: ''}, 
         {id: 'sports', label: 'Sports', value: ''},
         {id: 'news', label: 'News', value: ''}
       ],
       title: 'What content would you like to include?',
+      buttonText: 'set',
       refreshFreets: true,
       callback: () => {
         const message = 'Successfully set your feed!';

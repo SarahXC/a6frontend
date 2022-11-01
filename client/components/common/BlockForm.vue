@@ -33,7 +33,7 @@
     <button
       type="submit"
     >
-      {{ title }}
+      {{ buttonText }}
     </button>
     <section class="alerts">
       <article

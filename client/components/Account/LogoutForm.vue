@@ -12,6 +12,7 @@ export default {
       method: 'DELETE',
       setUsername: true,
       title: 'Sign out',
+      buttonText: 'sign out',
       fields: [],
       content: 'Taking a break? See you later.',
       callback: () => {

@@ -16,6 +16,7 @@ export default {
         {id: 'category', label: 'Category', value: ''} //TODO: adding breaks it
       ],
       title: 'Create a freet',
+      buttonText: 'post',
       refreshFreets: true,
       callback: () => {
         const message = 'Successfully created a freet!';
