@@ -1,11 +1,13 @@
 <!-- Form for creating freets (block style) -->
 
 <script>
-import BlockForm from '@/components/common/BlockForm.vue';
+import ToggleForm from '@/components/common/ToggleForm.vue';
+// import ToggleButton from 'vue-js-toggle-button'
+// Vue.use(ToggleButton)
 
 export default {
   name: 'CreateAdjustfeedForm',
-  mixins: [BlockForm],
+  mixins: [ToggleForm],
   data() {
     return {
       url: '/api/adjustfeeds',
