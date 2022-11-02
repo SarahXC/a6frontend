@@ -44,7 +44,8 @@
         v-if="$store.state.freets.length"
       >
         <FreetComponent
-          v-for="freet in $store.state.freets"
+          <!-- v-for="freet in $store.state.freets" -->
+          v-for="freet in showedfreets"
           :key="freet.id"
           :freet="freet"
         />
@@ -66,6 +67,11 @@ import GetFreetsForm from '@/components/Freet/GetFreetsForm.vue';
 export default {
   name: 'FreetPage',
   components: {FreetComponent, GetFreetsForm, CreateFreetForm},
+  data() {
+    return{
+      showedFreets: this.$store.freets.filter(freet => this.categories.includes(freet.category))
+    }
+  }
   mounted() {
     this.$refs.getFreetsForm.submit();
   }
