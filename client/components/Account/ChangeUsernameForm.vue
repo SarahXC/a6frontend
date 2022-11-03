@@ -12,6 +12,7 @@ export default {
       method: 'PATCH',
       hasBody: true,
       setUsername: true,
+      buttonText: 'Change username',
       fields: [
         {id: 'username', label: 'Username', value: ''}
       ],

@@ -120,7 +120,7 @@ export default {
        * Likes this freet.
        */
       const params = {
-        method: 'LIKE',
+        method: 'DELETE', 
         callback: () => {
           this.$store.commit('alert', {
             message: 'Successfully liked freet!', status: 'success'

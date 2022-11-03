@@ -13,25 +13,27 @@ import NavBar from '@/components/common/NavBar.vue';
 export default {
   name: 'App',
   components: {NavBar},
-  beforeCreate() {
-    // Sync stored username to current session
-    fetch('/api/users/session', {
-      credentials: 'same-origin' // Sends express-session credentials with request
-    }).then(res => res.json()).then(res => {
-      const user = res.user;
-      this.$store.commit('setUsername', user ? user.username : null);
-      //added to get the feed breakdown
-      fetch('/api/adjustfeeds/breakdown', {
-      credentials: 'same-origin' // Sends express-session credentials with request
-    }).then(res => res.json()).then(res => {
-      const categories = res.categories;
-      this.$store.commit('setCategories', categories ? categories : null);
-    });
-    });
+  // beforeCreate() {
+  //   // Sync stored username to current session
+  //   fetch('/api/users/session', {
+  //     credentials: 'same-origin' // Sends express-session credentials with request
+  //   }).then(res => res.json()).then(res => {
+  //     console.log(user);
+  //     const user = res.user;
+  //     this.$store.commit('setUsername', user ? user.username : null);
+  //     //added to get the feed breakdown
+  //     fetch('/api/adjustfeeds/breakdown', {
+  //     credentials: 'same-origin' // Sends express-session credentials with request
+  //   }).then(res => res.json()).then(res => {
+  //     const categories = res.categories;
+
+  //     this.$store.commit('setCategories', categories ? categories : []);
+  //   });
+  //   });
 
     // Clear alerts on page refresh
-    this.$store.state.alerts = {};
-  }
+    // this.$store.state.alerts = {};
+  // }
 };
 </script>
 

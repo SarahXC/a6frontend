@@ -25,7 +25,7 @@ const store = new Vuex.Store({
         Vue.delete(state.alerts, payload.message);
       }, 3000);
     },
-    setCategories(state, categories) {
+    setCategories(state, categories) { 
       /**
        * @param categories - categories of freets to show
        */
@@ -59,6 +59,41 @@ const store = new Vuex.Store({
       const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
+    }
+  },
+  actions: {
+    async getUser(state) {
+      const r = await fetch('/api/users/session', {
+        credentials: 'same-origin',
+      });
+      const res = await r.json();
+      const user = res.user;
+      state.commit('setUsername', user ? user.username : null);  
+
+      if (user) {
+        await state.dispatch('getCategories');
+      }
+    },
+
+    async getCategories(state) {
+      const r = await fetch('/api/adjustfeeds/breakdown', {
+        credentials: 'same-origin',
+      });
+      const res = await r.json();
+      const categories = res.categories;
+      console.log(categories);
+      state.commit('setCategories', categories ? categories : null);  
+    }
+
+
+
+  },
+  //TODO: add getters
+  getters: {
+    getFreetsInCategories: state => {
+      if (!state.freets) return [];
+      // return state.freets.filter(f => state.categories.includes(f.category)) //TODO: use getters
+      return state.freets.filter(f => state.categories.includes(f.category)) //TODO: use getters
     }
   },
   // Store data across page refreshes, only discard on browser close

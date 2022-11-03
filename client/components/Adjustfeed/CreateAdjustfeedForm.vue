@@ -21,7 +21,7 @@ export default {
       ],
       title: 'What content would you like to include?',
       buttonText: 'set',
-      refreshFreets: true,
+      refreshCategories: true,
       callback: () => {
         const message = 'Successfully set your feed!';
         this.$set(this.alerts, message, 'success');

@@ -54,7 +54,7 @@ router.get(
     const adjustfeed = await AdjustfeedCollection.updateOneByUserId(userId, politics, entertainment, sports, news);
     res.status(200).json({
       message: 'Your feed was updated successfully.',
-      freet: util.constructAdjustfeedResponse(adjustfeed)
+      adjustFeed: util.constructAdjustfeedResponse(adjustfeed)
     });
   }
 );
