@@ -44,8 +44,7 @@
         v-if="$store.state.freets.length"
       >
         <FreetComponent
-          <!-- v-for="freet in $store.state.freets" -->
-          v-for="freet in showedfreets"
+          v-for="freet in $store.state.freets"
           :key="freet.id"
           :freet="freet"
         />
@@ -69,9 +68,9 @@ export default {
   components: {FreetComponent, GetFreetsForm, CreateFreetForm},
   data() {
     return{
-      showedFreets: this.$store.freets.filter(freet => this.categories.includes(freet.category))
+      showedFreets: $store.state.freets.filter(freet => this.categories.includes(freet.category))
     }
-  }
+  },
   mounted() {
     this.$refs.getFreetsForm.submit();
   }

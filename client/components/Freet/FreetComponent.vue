@@ -34,6 +34,9 @@
         <button @click="deleteFreet">
           🗑️ Delete
         </button>
+        <button @click="likeFreet">
+           Like
+        </button>
       </div>
     </header>
     <textarea
@@ -107,6 +110,20 @@ export default {
         callback: () => {
           this.$store.commit('alert', {
             message: 'Successfully deleted freet!', status: 'success'
+          });
+        }
+      };
+      this.request(params);
+    },
+    likeFreet() { //TODO: OH HELP
+      /**
+       * Likes this freet.
+       */
+      const params = {
+        method: 'LIKE',
+        callback: () => {
+          this.$store.commit('alert', {
+            message: 'Successfully liked freet!', status: 'success'
           });
         }
       };

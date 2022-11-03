@@ -12,7 +12,8 @@ const store = new Vuex.Store({
     filter: null, // Username to filter shown freets by (null = show all)
     freets: [], // All freets created in the app
     username: null, // Username of the logged in user
-    alerts: {} // global success/error messages encountered during submissions to non-visible forms
+    alerts: {}, // global success/error messages encountered during submissions to non-visible forms
+    categories: [], 
   },
   mutations: {
     alert(state, payload) {
@@ -23,6 +24,12 @@ const store = new Vuex.Store({
       setTimeout(() => {
         Vue.delete(state.alerts, payload.message);
       }, 3000);
+    },
+    setCategories(state, categories) {
+      /**
+       * @param categories - categories of freets to show
+       */
+      state.categories = categories;
     },
     setUsername(state, username) {
       /**

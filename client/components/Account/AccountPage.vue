@@ -10,6 +10,14 @@
       <ChangeUsernameForm />
       <ChangePasswordForm />
     </section>
+
+    <section>
+      <header>
+        <h2>Feed settings</h2>
+      </header>
+      <CreateAdjustfeedForm/>
+    </section>
+
     <section>
       <header>
         <h2>Account management</h2>
@@ -25,6 +33,7 @@ import ChangeUsernameForm from '@/components/Account/ChangeUsernameForm.vue';
 import ChangePasswordForm from '@/components/Account/ChangePasswordForm.vue';
 import DeleteAccountForm from '@/components/Account/DeleteAccountForm.vue';
 import LogoutForm from '@/components/Account/LogoutForm.vue';
+import CreateAdjustfeedForm from '@/components/Adjustfeed/CreateAdjustfeedForm.vue';
 
 export default {
   name: 'AccountPage',
@@ -32,7 +41,8 @@ export default {
     ChangeUsernameForm,
     ChangePasswordForm,
     DeleteAccountForm,
-    LogoutForm
+    LogoutForm,
+    CreateAdjustfeedForm
   }
 };
 </script>

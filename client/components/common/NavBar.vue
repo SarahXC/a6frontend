@@ -26,12 +26,6 @@
       >
         Login
       </router-link>
-      <router-link
-        v-if="$store.state.username"
-        to="/adjustfeeds"
-      >
-        Settings
-      </router-link>
     </div>
     <section class="alerts">
       <article

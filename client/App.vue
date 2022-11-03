@@ -20,6 +20,13 @@ export default {
     }).then(res => res.json()).then(res => {
       const user = res.user;
       this.$store.commit('setUsername', user ? user.username : null);
+      //added to get the feed breakdown
+      fetch('/api/adjustfeeds/breakdown', {
+      credentials: 'same-origin' // Sends express-session credentials with request
+    }).then(res => res.json()).then(res => {
+      const categories = res.categories;
+      this.$store.commit('setCategories', categories ? categories : null);
+    });
     });
 
     // Clear alerts on page refresh
