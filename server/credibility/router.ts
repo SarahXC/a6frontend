@@ -10,22 +10,21 @@ import UserCollection from '../user/collection';
 const router = express.Router();
 
 /**
- * Get the Credibility Score by username
+ * Get the Credibility Score of the current user
  *
- * @name GET /api/credibility?userid=id
+ * @name GET /api/credibility
  *
- * @return {[CredibilityResponse]} - A list of all the freets sorted in descending
- *                      order by date modified
+ * @return {[CredibilityResponse]} - 
  */
 router.get(
   '/',
   [
     userValidator.isUserLoggedIn,
-    credibilityValidator.isValidUsername,
+    // credibilityValidator.isValidUsername,
     credibilityValidator.hasCredibilityScore,
   ],
   async (req: Request, res: Response, next: NextFunction) => {
-    const user = await UserCollection.findOneByUsername(req.query.username as string); 
+    const user = await UserCollection.findOneByUserId(req.session.userId); 
     const credibility = await CredibilityCollection.findOneByUserId(user._id);
     const response = util.constructCredibilityResponse(credibility); //don't need map because only returning one thing
     res.status(200).json(response); //TODO 

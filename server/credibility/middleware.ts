@@ -25,7 +25,7 @@ import CredibilityModel from './model';
  * Checks if a follow with followId is req.params exists
  */
  const hasCredibilityScore = async (req: Request, res: Response, next: NextFunction) => {
-  const user = await UserCollection.findOneByUsername(req.query.username as string);
+  const user = await UserCollection.findOneByUserId(req.session.userId);
   const credibility = await CredibilityModel.findOne({user: user});
   if (!credibility) {
     res.status(405).json({

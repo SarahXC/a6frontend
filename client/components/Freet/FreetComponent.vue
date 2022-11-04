@@ -35,7 +35,7 @@
           🗑️ Delete
         </button>
         <button @click="likeFreet">
-           Like
+           👍 Like
         </button>
       </div>
     </header>

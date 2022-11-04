@@ -14,6 +14,7 @@ const store = new Vuex.Store({
     username: null, // Username of the logged in user
     alerts: {}, // global success/error messages encountered during submissions to non-visible forms
     categories: [], 
+    credibility: 0,
   },
   mutations: {
     alert(state, payload) {
@@ -30,6 +31,12 @@ const store = new Vuex.Store({
        * @param categories - categories of freets to show
        */
       state.categories = categories;
+    },
+    setCredibility(state, credibility) { 
+      /**
+       * @param credibility - categories of freets to show
+       */
+      state.credibility = credibility;
     },
     setUsername(state, username) {
       /**
@@ -72,6 +79,7 @@ const store = new Vuex.Store({
 
       if (user) {
         await state.dispatch('getCategories');
+        await state.dispatch('getCredibility');
       }
     },
 
@@ -83,6 +91,16 @@ const store = new Vuex.Store({
       const categories = res.categories;
       console.log(categories);
       state.commit('setCategories', categories ? categories : null);  
+    },
+
+    async getCredibility(state) {
+      const r = await fetch('/api/credibilities', {
+        credentials: 'same-origin',
+      });
+      const res = await r.json();
+      const credibilityScore = res.score;
+      console.log(credibilityScore);
+      state.commit('setCredibility', credibilityScore ? credibilityScore : 0);  
     }
 
 
@@ -92,8 +110,7 @@ const store = new Vuex.Store({
   getters: {
     getFreetsInCategories: state => {
       if (!state.freets) return [];
-      // return state.freets.filter(f => state.categories.includes(f.category)) //TODO: use getters
-      return state.freets.filter(f => state.categories.includes(f.category)) //TODO: use getters
+      return state.freets.filter(f => state.categories.includes(f.category)) 
     }
   },
   // Store data across page refreshes, only discard on browser close
