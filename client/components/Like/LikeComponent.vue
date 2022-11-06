@@ -3,60 +3,26 @@
 
 <template>
   <article
-    class="freet"
+    class="like"
   >
-    <header>
-      <h3 class="author">
-        @{{ freet.author }}
-      </h3>
-      <div
-        v-if="$store.state.username === freet.author"
-        class="actions"
-      >
-        <!-- <button
-          v-if="editing"
-          @click="submitEdit"
-        >
-          ✅ Save changes
-        </button>
         <button
-          v-if="editing"
-          @click="stopEditing"
+          v-if="!isLiked()"
+          @click="likePost"
         >
-          🚫 Discard changes
+          👍 Like
         </button>
+
         <button
-          v-if="!editing"
-          @click="startEditing"
+          v-if="isLiked()"
+          @click="unlikePost"
         >
-          ✏️ Edit
-        </button> -->
-        <button @click="deleteFreet">
-          🗑️ Delete
+          👎 Unlike
         </button>
-        <button @click="likeFreet">
-           👍 Like
-        </button>
-      </div>
-    </header>
-    <textarea
-      v-if="editing"
-      class="content"
-      :value="draft"
-      @input="draft = $event.target.value"
-    />
-    <p
-      v-else
-      class="content"
-    >
-      {{ freet.content }}
-    </p>
-    <p class="info">
-      Posted at {{ freet.dateModified }}
-    </p>
-    <p class="info">
-      Category: {{ freet.category }}
-    </p>
+
+        <p class="info">
+          👍 {{ currentLikes() }}
+        </p>
+
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -71,7 +37,7 @@
 
 <script>
 export default {
-  name: 'FreetComponent',
+  name: 'LikeComponent',
   props: {
     // Data from the stored freet
     freet: {
@@ -87,56 +53,59 @@ export default {
     };
   },
   methods: {
-    // startEditing() {
-    //   /**
-    //    * Enables edit mode on this freet.
-    //    */
-    //   this.editing = true; // Keeps track of if a freet is being edited
-    //   this.draft = this.freet.content; // The content of our current "draft" while being edited
-    // },
-    // stopEditing() {
-    //   /**
-    //    * Disables edit mode on this freet.
-    //    */
-    //   this.editing = false;
-    //   this.draft = this.freet.content;
-    // },
-    deleteFreet() {
+    isLiked() {
       /**
-       * Deletes this freet.
+       * Returns whether the freet is currently liked
        */
-      const params = {
-        method: 'DELETE',
-        callback: () => {
-          this.$store.commit('alert', {
-            message: 'Successfully deleted freet!', status: 'success'
-          });
-        }
-      };
-      this.request(params);
+      const likes = this.$store.state.likes;
+      return likes.filter(like => like.post._id == this.freet._id && like.userLike.username === this.$store.state.username).length == 1
     },
-    submitEdit() {
-      /**
-       * Updates freet to have the submitted draft content.
-       */
-      if (this.freet.content === this.draft) {
-        const error = 'Error: Edited freet content should be different than current freet content.';
+    likePost() {
+      if (this.$store.state.username === this.freet.authorId) {
+        const error = 'Error: You cannot like your own post.';
         this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
         setTimeout(() => this.$delete(this.alerts, error), 3000);
         return;
       }
 
       const params = {
-        method: 'PATCH',
-        message: 'Successfully edited freet!',
-        body: JSON.stringify({content: this.draft}),
+        method: 'POST', 
         callback: () => {
-          this.$set(this.alerts, params.message, 'success');
-          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+          this.$store.commit('alert', {
+            message: 'Successfully liked freet!', status: 'success'
+            setTimeout(() => this.$delete(this.alerts, error), 3000);
+          });
         }
       };
       this.request(params);
     },
+    unlikePost() {
+      if (this.$store.state.username === this.freet.authorId) {
+        const error = 'Error: You cannot unlike your own post.';
+        this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
+        setTimeout(() => this.$delete(this.alerts, error), 3000);
+        return;
+      }
+
+      const params = {
+        method: 'DELETE', 
+        callback: () => {
+          this.$store.commit('alert', {
+            message: 'Successfully liked freet!', status: 'success'
+            setTimeout(() => this.$delete(this.alerts, error), 3000);
+          });
+        }
+      };
+      this.request(params);
+    },
+    currentLikes() {
+      /** 
+       * Returns the number of likes the current freet has
+       */
+      const likes = this.$store.state.likes;
+      return likes.filter(like => like.post._id === this.freet._id).length;
+    }
+  
     async request(params) {
       /**
        * Submits a request to the freet's endpoint
@@ -152,14 +121,14 @@ export default {
       }
 
       try {
-        const r = await fetch(`/api/freets/${this.freet._id}`, options);
+        const r = await fetch(`/api/likes/${this.freet._id}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
         }
 
         this.editing = false;
-        this.$store.commit('refreshFreets');
+        this.$store.commit('refreshLikes');
 
         params.callback();
       } catch (e) {
@@ -172,7 +141,7 @@ export default {
 </script>
 
 <style scoped>
-.freet {
+.like {
     border: 1px solid #111;
     padding: 20px;
     position: relative;

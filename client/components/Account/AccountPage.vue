@@ -6,7 +6,7 @@
     <section>
       <header>
         <h2>Account settings for @{{ $store.state.username }}</h2>
-        <h3>Credibility: {{ $store.state.credibility }}</h3>
+        <h3>Credibility Score: {{ $store.state.credibility }}</h3>
       </header>
       <ChangeUsernameForm />
       <ChangePasswordForm />

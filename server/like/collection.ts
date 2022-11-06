@@ -54,21 +54,15 @@ class LikeCollection {
   
   static async addOne(freetId: Types.ObjectId | string, userId: Types.ObjectId | string): Promise<HydratedDocument<Like>> {
     const dateLiked = new Date();
-    console.log('addOne');
-    // const freetObject = await FreetModel.findOne({_id: freetId});
     const freetObject = await FreetCollection.findOne(freetId);
-    console.log('addOne2');
-    console.log(freetObject.content);
     const userPost = await UserCollection.findOneByUserId(freetObject.authorId);
-    console.log('addOne3');
-    console.log(userPost.username as string);
     const userLike = await UserCollection.findOneByUserId(userId);
-    console.log('addOne4');
-    console.log(userLike.username as string);
     const like = new LikeModel({post: freetObject, userPost: userPost, userLike: userLike, dateLiked: dateLiked});
-    console.log('addOne5');
     await like.save(); // Saves user to MongoDB
-    console.log('addOne6');
+
+    //synchronization: update the post
+    const likePost = FreetCollection.addLike(freetId);
+
     return like.populate(['post', 'userPost','userLike']); //TODO: help understanding this
   }
 
@@ -80,7 +74,12 @@ class LikeCollection {
    */
 
   static async deleteOne(likeId: Types.ObjectId | string): Promise<boolean> {
-    const like = await LikeModel.deleteOne({_id: likeId});
+    //synchronization: increment the post
+    const like = await LikeModel.findOne({_id: likeId});
+    const likePost = await FreetCollection.deleteLike(like.post._id);
+
+    const deleteLike = await LikeModel.deleteOne({_id: likeId});
+
     return like !== null;
   }
 

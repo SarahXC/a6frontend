@@ -31,14 +31,28 @@ class FreetCollection {
       dateCreated: date,
       content,
       dateModified: date,
-      category: category
-      // numLikes: 0,
+      category: category,
+      numLikes: 0,
     });
     await freet.save(); // Saves freet to MongoDB
 
     //add the tag
     // const tag = await TagCollection.addOne(freet._id, category);
 
+    return freet.populate('authorId');
+  }
+
+  static async addLike(freetId: Types.ObjectId | string): Promise<HydratedDocument<Freet>> {
+    const freet = await FreetModel.findOne({_id: freetId});
+    freet.numLikes += 1;
+    await freet.save();
+    return freet.populate('authorId');
+  }
+
+  static async deleteLike(freetId: Types.ObjectId | string): Promise<HydratedDocument<Freet>> {
+    const freet = await FreetModel.findOne({_id: freetId});
+    freet.numLikes -= 1;
+    await freet.save();
     return freet.populate('authorId');
   }
 
