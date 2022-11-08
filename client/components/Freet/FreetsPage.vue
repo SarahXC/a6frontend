@@ -2,11 +2,17 @@
 
 <template>
   <main>
-    <section v-if="$store.state.username">
+    <section v-if="$store.state.username && $store.state.credibility > 5"> 
       <header>
         <h2>Welcome @{{ $store.state.username }}</h2>
       </header>
       <CreateFreetForm />
+    </section>
+    <section v-else-if="$store.state.username"> 
+      <header>
+        <h2>Welcome @{{ $store.state.username }}</h2>
+      </header>
+      <h4> You do not have enough Fritter points to post content yet. Earn Fritter points by gaining followers! </h4>
     </section>
     <section v-else>
       <header>

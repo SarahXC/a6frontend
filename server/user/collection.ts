@@ -28,7 +28,12 @@ class UserCollection {
     const dateJoined = new Date();
     const credibilityScore = 0;
 
-    const user = new UserModel({username, password, dateJoined, credibilityScore});
+    const user = new UserModel({
+      username: username, 
+      password: password, 
+      dateJoined: dateJoined, 
+      credibility: credibilityScore,
+  });
     await user.save(); // Saves user to MongoDB
     //synchronization: also add a credibility score
     const credibility = await CredibilityCollection.addOneByUserId(user._id); //TODO: bring back

@@ -16,10 +16,13 @@
         <button @click="deleteFreet">
           🗑️ Delete
         </button>
-        <LikeComponent
-          :freet="freet"
-        />
       </div>
+      <LikeComponent
+        :freet="freet"
+      />
+      <p>
+      {{ freet.content }}
+    </p>
     </header>
     <p class="info">
       Posted at {{ freet.dateModified }}

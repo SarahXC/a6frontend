@@ -19,6 +19,7 @@ export default {
       //TODO: implement checkCategory: true, 
       buttonText: 'post',
       refreshFreets: true,
+      checkCategory: true, //checks that it's a valid category
       callback: () => {
         const message = 'Successfully created a freet!';
         this.$set(this.alerts, message, 'success');

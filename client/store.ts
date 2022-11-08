@@ -83,7 +83,7 @@ const store = new Vuex.Store({
       const url = '/api/likes';
       const res = await fetch(url).then(async r => r.json());
       state.likes = res;
-    }
+    },
   },
   actions: {
     async getUser(state) {
@@ -100,6 +100,7 @@ const store = new Vuex.Store({
         await state.dispatch('getLikes');
 
       }
+      // state.alerts = {};
     },
 
     async getCategories(state) {
