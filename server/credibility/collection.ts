@@ -50,6 +50,9 @@ class CredibilityCollection {
     credibility.score =  numLikes + 2* numFollowers;
     credibility.canPost = credibility.score >4 ? true : false;
     await credibility.save();
+
+    user.credibility = credibility.score;
+    await user.save();
     return credibility.populate('user'); //populate for things with Schema.Type and objects 
   }
 

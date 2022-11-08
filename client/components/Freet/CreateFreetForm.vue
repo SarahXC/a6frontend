@@ -13,9 +13,10 @@ export default {
       hasBody: true,
       fields: [
         {id: 'content', label: 'Content', value: ''},
-        {id: 'category', label: 'Category', value: ''} //TODO: adding breaks it
+        {id: 'category', label: 'Category', value: ''} 
       ],
       title: 'Create a freet',
+      //TODO: implement checkCategory: true, 
       buttonText: 'post',
       refreshFreets: true,
       callback: () => {

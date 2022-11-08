@@ -10,6 +10,19 @@ import * as util from './util';
 const router = express.Router();
 
 /**
+ * Get all of the likes
+ */
+
+ router.get(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    const allLikes = await LikeCollection.findAll();
+    const response = allLikes.map(util.constructLikeResponse);
+    res.status(200).json(response);
+  },
+);
+
+/**
  * Create a new like
  */
 

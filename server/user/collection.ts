@@ -26,8 +26,9 @@ class UserCollection {
    */
   static async addOne(username: string, password: string): Promise<HydratedDocument<User>> {
     const dateJoined = new Date();
+    const credibilityScore = 0;
 
-    const user = new UserModel({username, password, dateJoined});
+    const user = new UserModel({username, password, dateJoined, credibilityScore});
     await user.save(); // Saves user to MongoDB
     //synchronization: also add a credibility score
     const credibility = await CredibilityCollection.addOneByUserId(user._id); //TODO: bring back

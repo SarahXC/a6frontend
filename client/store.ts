@@ -15,6 +15,8 @@ const store = new Vuex.Store({
     alerts: {}, // global success/error messages encountered during submissions to non-visible forms
     categories: [], 
     credibility: 0,
+    //TODO: add likes and can do it based on freets 
+    likes: [], //all of the likes
   },
   mutations: {
     alert(state, payload) {
@@ -37,6 +39,13 @@ const store = new Vuex.Store({
        * @param credibility - categories of freets to show
        */
       state.credibility = credibility;
+    },
+    setLikes(state, likes) {
+      /**
+       * Update the stored likes to the provided likes.
+       * @param likes - likes to store
+       */
+      state.likes = likes;
     },
     setUsername(state, username) {
       /**
@@ -66,6 +75,14 @@ const store = new Vuex.Store({
       const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
+    },
+    async refreshLikes(state) {
+      /**
+       * Request the server for the currently available freets.
+       */
+      const url = '/api/likes';
+      const res = await fetch(url).then(async r => r.json());
+      state.likes = res;
     }
   },
   actions: {
@@ -80,6 +97,8 @@ const store = new Vuex.Store({
       if (user) {
         await state.dispatch('getCategories');
         await state.dispatch('getCredibility');
+        await state.dispatch('getLikes');
+
       }
     },
 
@@ -101,6 +120,16 @@ const store = new Vuex.Store({
       const credibilityScore = res.score;
       console.log(credibilityScore);
       state.commit('setCredibility', credibilityScore ? credibilityScore : 0);  
+    },
+
+    async getLikes(state) {
+      const r = await fetch('/api/likes', {
+        credentials: 'same-origin',
+      });
+      const res = await r.json();
+      const likes = res;
+      console.log(likes);
+      state.commit('setLikes', likes ? likes : []);  
     }
 
 

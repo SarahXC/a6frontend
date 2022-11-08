@@ -20,7 +20,7 @@
         </button>
 
         <p class="info">
-          👍 {{ currentLikes() }}
+          Current Likes: {{ freet.numLikes }}
         </p>
 
     <section class="alerts">
@@ -47,8 +47,6 @@ export default {
   },
   data() {
     return {
-      editing: false, // Whether or not this freet is in edit mode
-      draft: this.freet.content, // Potentially-new content for this freet
       alerts: {} // Displays success/error messages encountered during freet modification
     };
   },
@@ -73,8 +71,8 @@ export default {
         callback: () => {
           this.$store.commit('alert', {
             message: 'Successfully liked freet!', status: 'success'
-            setTimeout(() => this.$delete(this.alerts, error), 3000);
           });
+          setTimeout(() => this.$delete(this.alerts, error), 3000);
         }
       };
       this.request(params);
@@ -91,20 +89,13 @@ export default {
         method: 'DELETE', 
         callback: () => {
           this.$store.commit('alert', {
-            message: 'Successfully liked freet!', status: 'success'
-            setTimeout(() => this.$delete(this.alerts, error), 3000);
+            message: 'Successfully unliked freet!', status: 'success'
           });
+          setTimeout(() => this.$delete(this.alerts, error), 3000);
         }
       };
       this.request(params);
     },
-    currentLikes() {
-      /** 
-       * Returns the number of likes the current freet has
-       */
-      const likes = this.$store.state.likes;
-      return likes.filter(like => like.post._id === this.freet._id).length;
-    }
   
     async request(params) {
       /**
@@ -121,7 +112,7 @@ export default {
       }
 
       try {
-        const r = await fetch(`/api/likes/${this.freet._id}`, options);
+        const r = await fetch('/api/likes', options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
@@ -142,8 +133,8 @@ export default {
 
 <style scoped>
 .like {
-    border: 1px solid #111;
-    padding: 20px;
+    /* border: 1px solid #111; */
+    padding: 5px;
     position: relative;
 }
 </style>

@@ -11,6 +11,7 @@ import UserModel from '../user/model';
 /**
   * findOne: by likeId
   * findOneByPostAndUserId
+  * findAll
   * addOne
   * deleteOne: by likeId
   * deleteMany: unlikes all of the likes by a user
@@ -42,6 +43,16 @@ class LikeCollection {
     const post = await FreetCollection.findOne(postId);
     const userLike = await UserCollection.findOneByUserId(userId);
     return LikeModel.findOne({post: post, userLike: userLike}).populate(['post', 'userPost', 'userLike']); //TODO: how this work
+  }
+
+  /**
+   * Get all the likes in the database
+   *
+   * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets
+   */
+   static async findAll(): Promise<Array<HydratedDocument<Like>>> {
+    // Retrieves freets and sorts them from most to least recent
+    return LikeModel.find({}).sort({dateModified: -1}).populate(['post', 'userPost', 'userLike']);
   }
 
   /**
