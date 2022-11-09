@@ -8,8 +8,10 @@ import LikeCollection from './collection';
  * Checks that the post you're trying to like exists, by postId
  */
  const isPostExist = async (req: Request, res: Response, next: NextFunction) => {
-  console.log('isPostExist');
+  // console.log('isPostExist');
+  // console.log(req.body.postId);
   const freet = await FreetCollection.findOne(req.body.postId);
+  // console.log(freet);
   if (!freet) {
     res.status(404).json({
       error: {
@@ -27,9 +29,7 @@ import LikeCollection from './collection';
  */
  const isPostNotSelf = async (req: Request, res: Response, next: NextFunction) => {
   const post = await FreetCollection.findOne(req.body.postId);
-  const postUser = await UserCollection.findOneByUserId(post.authorId);
-  const currentUser = await UserCollection.findOneByUserId(req.session.userId);
-  if (currentUser.username == postUser.username) {
+  if (req.session.userId == post.authorId) {
     res.status(405).json({
       error: {
         followNotFound: `You cannot like your own post, silly!`
@@ -65,6 +65,7 @@ import LikeCollection from './collection';
   const currentUser = await UserCollection.findOneByUserId(req.session.userId);
   const post = await FreetCollection.findOne(req.body.postId);
   const like = await LikeCollection.findOneByPostAndUserId(post._id, currentUser._id); 
+  // console.log(like);
   if (like) {
     res.status(404).json({
       error: {

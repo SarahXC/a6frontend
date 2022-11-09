@@ -1,11 +1,13 @@
 import type {HydratedDocument} from 'mongoose';
 import moment from 'moment';
 import type {Like} from './model';
+import { Freet } from '../freet/model';
 
 // Update this if you add a property to the Freet type!
 type LikeResponse = {
   postedBy: string;
-  likedBy: string;
+  post: Freet; 
+  userLike: string;
   postContent: string; 
 };
 
@@ -33,8 +35,9 @@ const constructLikeResponse = (like: HydratedDocument<Like>): LikeResponse => {
   console.log(likeCopy);
   return {
     postedBy: likeCopy.userPost.username, 
-    likedBy: likeCopy.userLike.username, 
+    userLike: likeCopy.userLike.username, 
     postContent: likeCopy.post.content,
+    post: likeCopy.post,
   };
 };
 

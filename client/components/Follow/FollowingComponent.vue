@@ -3,21 +3,20 @@
 
 <template>
   <article
-    class="like"
+    class="follow"
   >
-        {{ freet._id}}
         <button
-          v-if="!isLiked() && !ownPost()"
-          @click="likePost"
+          v-if="!isFollowing()"
+          @click="followUser"
         >
-          👍 Like
+          Follow
         </button>
 
         <button
-          v-if="isLiked() && !ownPost()"
-          @click="unlikePost"
+          v-if="isFollowing()"
+          @click="unfollowUser"
         >
-          👎 Unlike
+          Unfollow
         </button>
 
         <p class="info">
@@ -48,55 +47,43 @@ export default {
   },
   data() {
     return {
-      // numLikes: this.freet.numLikes,
       alerts: {} // Displays success/error messages encountered during freet modification
     };
   },
   methods: {
-    ownPost() {
-      return this.$store.state.username === this.freet.author; 
-    },
     isLiked() {
       /**
        * Returns whether the freet is currently liked
        */
       const likes = this.$store.state.likes;
-      // console.log(likes)
-      const likesForThisPost =  likes.filter(like => like.post._id == this.freet._id);
-      console.log('here');
-      const liked = likesForThisPost.filter(remainingLikes => remainingLikes.userLike.username === this.$store.state.username);
-      console.log(liked.length);
-      return liked > 0;
-
+      return likes.filter(like => like.post._id == this.freet._id && like.userLike.username === this.$store.state.username).length == 1
     },
     likePost() {
+      if (this.$store.state.username === this.freet.authorId) {
+        const error = 'Error: You cannot like your own post.';
+        this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
+        setTimeout(() => this.$delete(this.alerts, error), 3000);
+        return;
+      }
+
       const params = {
         method: 'POST', 
-        headers: {'Content-Type': 'application/json'},
-        credentials: 'same-origin', // Sends express-session credentials with request
-        body: JSON.stringify({postId: this.freet._id}), //TODO: add to follow
         callback: () => {
           this.$store.commit('alert', {
             message: 'Successfully liked freet!', status: 'success'
           });
           setTimeout(() => this.$delete(this.alerts, error), 3000);
-          this.$store.commit('updateLikes', this.freet._id);
-          // this.numLikes += 1;
         }
       };
       this.request(params);
-
-      //TODO: update numLikes
-      this.$store.commit('refreshFreets');
-      // this.$store.commit('updateFreets', )
     },
     unlikePost() {
-      // if (this.$store.state.username === this.freet.authorId) {
-      //   const error = 'Error: You cannot unlike your own post.';
-      //   this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
-      //   setTimeout(() => this.$delete(this.alerts, error), 3000);
-      //   return;
-      // }
+      if (this.$store.state.username === this.freet.authorId) {
+        const error = 'Error: You cannot unlike your own post.';
+        this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
+        setTimeout(() => this.$delete(this.alerts, error), 3000);
+        return;
+      }
 
       const params = {
         method: 'DELETE', 

@@ -117,7 +117,7 @@ router.post(
  * @throws {409} - If username already taken
  * @throws {400} - If username or password are not of the correct format
  */
-router.put(
+router.patch(
   '/',
   [
     userValidator.isUserLoggedIn,

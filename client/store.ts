@@ -84,6 +84,20 @@ const store = new Vuex.Store({
       const res = await fetch(url).then(async r => r.json());
       state.likes = res;
     },
+
+    updateLikes(state, postId){ //NEW
+      const newFreets = state.freets.map(freet => {
+        if (freet._id === postId) {
+          return {
+            ...freet,
+            numLikes: freet.numLikes + 1,
+          };
+        }
+        return freet;
+      })
+      state.freets = newFreets;
+    }
+
   },
   actions: {
     async getUser(state) {
