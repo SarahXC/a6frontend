@@ -9,6 +9,34 @@ import * as util from './util';
 const router = express.Router();
 
 /**
+ * Get all the follows
+ *
+ * @name GET /api/freets
+ *
+ * @return {FreetResponse[]} - A list of all the freets sorted in descending
+ *                      order by date modified
+ */
+/**
+ * Get freets by author.
+ *
+ * @name GET /api/freets?authorId=id
+ *
+ * @return {FreetResponse[]} - An array of freets created by user with id, authorId
+ * @throws {400} - If authorId is not given
+ * @throws {404} - If no user has given authorId
+ *
+ */
+ router.get(
+  '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+
+    const allFollows = await FollowCollection.findAll();
+    const response = allFollows.map(util.constructFollowResponse);
+    res.status(200).json(response);
+  }
+);
+
+/**
  * Get everyone following the user
  *
  * @name GET /api/follows
@@ -81,7 +109,7 @@ router.post(
 
 /**
  * Delete a follow
- *
+*
  * @name DELETE /api/follows/:id
  *
  * @return {string} - A success message

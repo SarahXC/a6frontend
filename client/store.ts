@@ -17,6 +17,7 @@ const store = new Vuex.Store({
     credibility: 0,
     //TODO: add likes and can do it based on freets 
     likes: [], //all of the likes
+    follows: [],
   },
   mutations: {
     alert(state, payload) {
@@ -46,6 +47,13 @@ const store = new Vuex.Store({
        * @param likes - likes to store
        */
       state.likes = likes;
+    },
+    setFollows(state, follows) {
+      /**
+       * Update the stored likes to the provided likes.
+       * @param likes - likes to store
+       */
+      state.follows = follows;
     },
     setUsername(state, username) {
       /**
@@ -84,7 +92,14 @@ const store = new Vuex.Store({
       const res = await fetch(url).then(async r => r.json());
       state.likes = res;
     },
-
+    async refreshFollows(state) {
+      /**
+       * Request the server for the currently available freets.
+       */
+      const url = '/api/follows';
+      const res = await fetch(url).then(async r => r.json());
+      state.follows = res;
+    },
     updateLikes(state, postId){ //NEW
       const newFreets = state.freets.map(freet => {
         if (freet._id === postId) {
@@ -96,7 +111,19 @@ const store = new Vuex.Store({
         return freet;
       })
       state.freets = newFreets;
-    }
+    },
+    // updateFollows(state, followId){ //NEW
+    //   const newFollows = state.follows.map(follow => {
+    //     if (follow._id === followId) {
+    //       return {
+    //         ...follow,
+    //         numFollows: follow.numFollows + 1,
+    //       };
+    //     }
+    //     return freet;
+    //   })
+    //   state.freets = newFreets;
+    // }
 
   },
   actions: {
@@ -112,7 +139,7 @@ const store = new Vuex.Store({
         await state.dispatch('getCategories');
         await state.dispatch('getCredibility');
         await state.dispatch('getLikes');
-
+        await state.dispatch('getFollows');
       }
       // state.alerts = {};
     },
@@ -145,6 +172,16 @@ const store = new Vuex.Store({
       const likes = res;
       console.log(likes);
       state.commit('setLikes', likes ? likes : []);  
+    },
+
+    async getFollows(state) {
+      const r = await fetch('/api/follows', {
+        credentials: 'same-origin',
+      });
+      const res = await r.json();
+      const follows = res;
+      console.log(follows);
+      state.commit('setFollows', follows ? follows : []);  
     }
 
 

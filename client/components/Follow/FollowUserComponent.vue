@@ -3,7 +3,7 @@
 
 <template>
   <article
-    class="followUser"
+    class="follow"
   >
         <button
           v-if="!isFollowing() && !ownAccount()"
@@ -36,8 +36,8 @@ export default {
   name: 'FollowUserComponent',
   props: {
     // Data from the stored user
-    user: {
-      type: Object,
+    username: {
+      type: String,
       required: true
     }
   },
@@ -48,14 +48,14 @@ export default {
   },
   methods: {
     ownAccount() {
-      return this.$store.state.username === this.user.username; 
+      return this.$store.state.username === this.username; 
     },
     isFollowing() {
       /**
        * Returns whether the user is already follow the user
        */
       const follows = this.$store.state.follows;
-      return follows.filter(f => ((f.follower == this.$store.state.username) && (f.following == this.user.username))).length == 1;
+      return follows.filter(f => ((f.follower == this.$store.state.username) && (f.following == this.username))).length == 1;
     },
     followUser() {
       const params = {
@@ -126,7 +126,7 @@ export default {
 </script>
 
 <style scoped>
-.followUser {
+.follow {
     /* border: 1px solid #111; */
     padding: 5px;
     position: relative;

@@ -44,9 +44,7 @@ router.get(
     //TODO: has adjustfeed default
   ],
   async (req: Request, res: Response) => {
-    console.log('inside router');
     const userId = (req.session.userId as string) ?? '';
-    console.log(req.body.politics);
     const politics = (req.body.politics.toLowerCase() as string == 'rue') ? true : false;
     const entertainment = (req.body.entertainment.toLowerCase() as string == 'true') ? true : false;
     const sports = (req.body.sports.toLowerCase() as string == 'true') ? true : false;

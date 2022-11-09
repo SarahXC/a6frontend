@@ -19,7 +19,6 @@ const constructCredibilityResponse = (credibility: HydratedDocument<Credibility>
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  console.log(credibilityCopy);
   return {
     user: credibilityCopy.user.username, 
     score: credibilityCopy.score,

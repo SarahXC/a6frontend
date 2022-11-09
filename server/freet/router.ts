@@ -4,7 +4,6 @@ import FreetCollection from './collection';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as util from './util';
-// import TagCollection from '../tag/collection';
 
 const router = express.Router();
 

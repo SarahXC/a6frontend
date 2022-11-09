@@ -4,6 +4,7 @@ import FreetsPage from './components/Freet/FreetsPage.vue';
 import AccountPage from './components/Account/AccountPage.vue';
 import LoginPage from './components/Login/LoginPage.vue';
 import AdjustfeedPage from './components/Adjustfeed/AdjustfeedPage.vue';
+import ProfilePage from './components/Profile/ProfilePage.vue';
 import NotFound from './NotFound.vue';
 import store from './store';
 
@@ -14,6 +15,8 @@ const routes = [
   {path: '/account', name: 'Account', component: AccountPage},
   {path: '/login', name: 'Login', component: LoginPage},
   {path: '/adjustfeeds', name: 'Adjust Feed', component: AdjustfeedPage},
+  // {path: '/users', name: 'Profile', component: ProfilePage},
+  {path: '/users/:username', name: 'Profile', component: ProfilePage},
   {path: '*', name: 'Not Found', component: NotFound}
 ];
 

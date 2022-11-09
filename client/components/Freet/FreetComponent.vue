@@ -20,6 +20,9 @@
       <LikeComponent
         :freet="freet"
       />
+      <!-- <FollowUserComponent
+        :user="user"
+      /> -->
       <p>
       {{ freet.content }}
     </p>
@@ -45,6 +48,7 @@
 <script>
 
 import LikeComponent from '@/components/Like/LikeComponent.vue';
+// import FollowUserComponent from '@/components/Like/LikeComponent.vue';
 
 export default {
   name: 'FreetComponent',
@@ -54,7 +58,11 @@ export default {
     freet: {
       type: Object,
       required: true
-    }
+    },
+    // username: {
+    //   type: String,
+    //   required: true
+    // }
   },
   data() {
     return {

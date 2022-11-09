@@ -8,10 +8,7 @@ import LikeCollection from './collection';
  * Checks that the post you're trying to like exists, by postId
  */
  const isPostExist = async (req: Request, res: Response, next: NextFunction) => {
-  // console.log('isPostExist');
-  // console.log(req.body.postId);
   const freet = await FreetCollection.findOne(req.body.postId);
-  // console.log(freet);
   if (!freet) {
     res.status(404).json({
       error: {

@@ -63,7 +63,6 @@ export default {
       const likes = this.$store.state.likes;
       const likesForThisPost =  likes.filter(like => like.post._id == this.freet._id);
       const liked = likesForThisPost.filter(remainingLikes => remainingLikes.userLike === this.$store.state.username);
-      console.log(liked.length);
       return liked.length > 0;
 
     },

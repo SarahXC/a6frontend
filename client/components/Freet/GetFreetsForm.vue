@@ -15,7 +15,6 @@ export default {
       try {
         const r = await fetch(url);
         const res = await r.json();
-        console.log(res);
         if (!r.ok) {
           throw new Error(res.error);
         }
