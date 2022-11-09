@@ -3,20 +3,20 @@
 
 <template>
   <article
-    class="follow"
+    class="followUser"
   >
         <button
-          v-if="!isFollowing()"
+          v-if="!isFollowing() && !ownAccount()"
           @click="followUser"
         >
-          Follow
+          ➕ Follow
         </button>
 
         <button
-          v-if="isFollowing()"
+          v-if="isFollowing() && !ownAccount()"
           @click="unfollowUser"
         >
-          Unfollow
+          ➕ Unfollow
         </button>
 
     <section class="alerts">
@@ -35,7 +35,7 @@
 export default {
   name: 'FollowUserComponent',
   props: {
-    // Data from the stored freet
+    // Data from the stored user
     user: {
       type: Object,
       required: true
@@ -43,41 +43,53 @@ export default {
   },
   data() {
     return {
-      alerts: {} // Displays success/error messages encountered during freet modification
+      alerts: {} 
     };
   },
   methods: {
+    ownAccount() {
+      return this.$store.state.username === this.user.username; 
+    },
     isFollowing() {
       /**
-       * Returns whether the freet is currently liked
+       * Returns whether the user is already follow the user
        */
-      const follows = this.$store.state.follows; //TODO: create parameter follows
-      return follows.filter(like => like.follower.username == this.$store.state.username && like.followed.username == this.user.username).length == 1
+      const follows = this.$store.state.follows;
+      return follows.filter(f => ((f.follower == this.$store.state.username) && (f.following == this.user.username))).length == 1;
     },
-    
     followUser() {
-      if (this.$store.state.username === this.user.username) {
-        const error = 'Error: You cannot follow yourself.';
-        this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
-        setTimeout(() => this.$delete(this.alerts, error), 3000);
-        return;
-      }
-
       const params = {
         method: 'POST', 
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'same-origin', // Sends express-session credentials with request
+        body: JSON.stringify({username: this.user.username}), //TODO: add to follow
         callback: () => {
-          this.$store.commit('alert', { //OH HELP: don't I need to specify somewhere
+          this.$store.commit('alert', {
             message: 'Successfully followed user!', status: 'success'
+          });
+          setTimeout(() => this.$delete(this.alerts, error), 3000);
+          this.$store.commit('updateFollows', this.user); //TODO: add
+        }
+      };
+      this.request(params);
+      this.$store.commit('refreshFreets');
+    },
+    unfollowUser() {
+
+      const params = {
+        method: 'DELETE', 
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'same-origin', // Sends express-session credentials with request
+        body: JSON.stringify({username: this.user.username}), //TODO: add to follow
+        callback: () => {
+          this.$store.commit('alert', {
+            message: 'Successfully unfollowed user!', status: 'success'
           });
           setTimeout(() => this.$delete(this.alerts, error), 3000);
         }
       };
       this.request(params);
     },
-    unfollowUser() {
-      //TODO: implement
-      return;
-    }
   
     async request(params) {
       /**
@@ -100,7 +112,7 @@ export default {
           throw new Error(res.error);
         }
 
-        // this.editing = false;
+        this.editing = false;
         this.$store.commit('refreshFollows');
 
         params.callback();
@@ -114,7 +126,7 @@ export default {
 </script>
 
 <style scoped>
-.like {
+.followUser {
     /* border: 1px solid #111; */
     padding: 5px;
     position: relative;

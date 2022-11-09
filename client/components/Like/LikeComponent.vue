@@ -5,7 +5,7 @@
   <article
     class="like"
   >
-        {{ freet._id}}
+        <!-- {{ freet._id}} -->
         <button
           v-if="!isLiked() && !ownPost()"
           @click="likePost"
@@ -61,12 +61,10 @@ export default {
        * Returns whether the freet is currently liked
        */
       const likes = this.$store.state.likes;
-      // console.log(likes)
       const likesForThisPost =  likes.filter(like => like.post._id == this.freet._id);
-      console.log('here');
-      const liked = likesForThisPost.filter(remainingLikes => remainingLikes.userLike.username === this.$store.state.username);
+      const liked = likesForThisPost.filter(remainingLikes => remainingLikes.userLike === this.$store.state.username);
       console.log(liked.length);
-      return liked > 0;
+      return liked.length > 0;
 
     },
     likePost() {
@@ -81,25 +79,17 @@ export default {
           });
           setTimeout(() => this.$delete(this.alerts, error), 3000);
           this.$store.commit('updateLikes', this.freet._id);
-          // this.numLikes += 1;
         }
       };
       this.request(params);
-
-      //TODO: update numLikes
-      this.$store.commit('refreshFreets');
-      // this.$store.commit('updateFreets', )
     },
     unlikePost() {
-      // if (this.$store.state.username === this.freet.authorId) {
-      //   const error = 'Error: You cannot unlike your own post.';
-      //   this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
-      //   setTimeout(() => this.$delete(this.alerts, error), 3000);
-      //   return;
-      // }
 
       const params = {
         method: 'DELETE', 
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'same-origin', // Sends express-session credentials with request
+        body: JSON.stringify({postId: this.freet._id}), //TODO: add to follow
         callback: () => {
           this.$store.commit('alert', {
             message: 'Successfully unliked freet!', status: 'success'
@@ -131,8 +121,9 @@ export default {
           throw new Error(res.error);
         }
 
-        this.editing = false;
+        // this.editing = false;
         this.$store.commit('refreshLikes');
+        this.$store.commit('refreshFreets');
 
         params.callback();
       } catch (e) {
