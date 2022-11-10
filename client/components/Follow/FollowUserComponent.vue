@@ -55,6 +55,7 @@ export default {
        * Returns whether the user is already follow the user
        */
       const follows = this.$store.state.follows;
+      // console.log(follows);
       return follows.filter(f => ((f.follower == this.$store.state.username) && (f.following == this.username))).length == 1;
     },
     followUser() {
@@ -62,17 +63,17 @@ export default {
         method: 'POST', 
         headers: {'Content-Type': 'application/json'},
         credentials: 'same-origin', // Sends express-session credentials with request
-        body: JSON.stringify({username: this.user.username}), //TODO: add to follow
+        body: JSON.stringify({username: this.username}), //TODO: add to follow
         callback: () => {
           this.$store.commit('alert', {
             message: 'Successfully followed user!', status: 'success'
           });
           setTimeout(() => this.$delete(this.alerts, error), 3000);
-          this.$store.commit('updateFollows', this.user); //TODO: add
+          // this.$store.commit('updateFollows', this.user); //TODO: add
         }
       };
       this.request(params);
-      this.$store.commit('refreshFreets');
+      this.$store.commit('refreshFollows');
     },
     unfollowUser() {
 
@@ -80,7 +81,7 @@ export default {
         method: 'DELETE', 
         headers: {'Content-Type': 'application/json'},
         credentials: 'same-origin', // Sends express-session credentials with request
-        body: JSON.stringify({username: this.user.username}), //TODO: add to follow
+        body: JSON.stringify({username: this.username}), //TODO: add to follow
         callback: () => {
           this.$store.commit('alert', {
             message: 'Successfully unfollowed user!', status: 'success'
@@ -89,6 +90,7 @@ export default {
         }
       };
       this.request(params);
+      this.$store.commit('refreshFollows');
     },
   
     async request(params) {

@@ -120,9 +120,9 @@ const store = new Vuex.Store({
     //         numFollows: follow.numFollows + 1,
     //       };
     //     }
-    //     return freet;
+    //     return follow;
     //   })
-    //   state.freets = newFreets;
+    //   state.follows = newFollows;
     // }
 
   },
