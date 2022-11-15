@@ -12,13 +12,11 @@ import CredibilityCollection from '../credibility/collection';
   const credibility = await CredibilityCollection.findOneByUserId(req.session.userId);
   if (!credibility.canPost) { //if not enough credibility
     res.status(405).json({
-      error: {
-        freetNotFound: `You do not have enough credibility points to post.`
-      }
+      error: `You do not have enough credibility points to post.`
     });
     return;
   }
-
+// 
   next();
 };
 
@@ -30,9 +28,7 @@ import CredibilityCollection from '../credibility/collection';
 
   if(categories.indexOf(req.body.category) < 0) {
     res.status(404).json({
-      error: {
-        userNotFound: `${req.body.category} is not a valid tag. The valid tags are politics, sports, entertainment, and news.`
-      }
+      error: `${req.body.category} is not a valid tag. The valid tags are politics, sports, entertainment, and news.`
     });
     return;
   } 

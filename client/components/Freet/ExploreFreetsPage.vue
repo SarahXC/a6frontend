@@ -54,9 +54,9 @@ export default {
     }
   },
 
-  mounted() {
-    this.$refs.getFreetsForm.submit();
-  }
+  // mounted() {
+  //   this.$refs.getFreetsForm.submit();
+  // }
 };
 </script>
 

@@ -11,9 +11,7 @@ import LikeCollection from './collection';
   const freet = await FreetCollection.findOne(req.body.postId);
   if (!freet) {
     res.status(404).json({
-      error: {
-        freetNotFound: `Post with post ID ${req.body.postId} does not exist.`
-      }
+      error: `Post with post ID ${req.body.postId} does not exist.`
     });
     return;
   }
@@ -28,9 +26,7 @@ import LikeCollection from './collection';
   const post = await FreetCollection.findOne(req.body.postId);
   if (req.session.userId == post.authorId) {
     res.status(405).json({
-      error: {
-        followNotFound: `You cannot like your own post, silly!`
-      }
+      error: `You cannot like your own post, silly!`
     });
     return;
   }
@@ -46,9 +42,7 @@ import LikeCollection from './collection';
   const like = await LikeCollection.findOneByPostAndUserId(post._id, currentUser._id); 
   if (!like) {
     res.status(404).json({
-      error: {
-        followNotFound: `This post wasn't liked. You can't unlike the post.`
-      }
+      error: `This post wasn't liked. You can't unlike the post.`
     });
     return;
   }
@@ -65,9 +59,7 @@ import LikeCollection from './collection';
   // console.log(like);
   if (like) {
     res.status(404).json({
-      error: {
-        followNotFound: `You already liked this post. You cannot like it again.`
-      }
+      error: `You already liked this post. You cannot like it again.`
     });
     return;
   }

@@ -19,7 +19,7 @@ export default {
         {id: 'sports', label: 'Sports', value: ''},
         {id: 'news', label: 'News', value: ''}
       ],
-      title: 'What content would you like to include?',
+      title: 'What content would you like to include? Indicate True/False',
       buttonText: 'set',
       refreshCategories: true,
       callback: () => {

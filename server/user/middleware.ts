@@ -14,9 +14,7 @@ const isCurrentSessionUserExists = async (req: Request, res: Response, next: Nex
     if (!user) {
       req.session.userId = undefined;
       res.status(500).json({
-        error: {
-          userNotFound: 'User session was not recognized.'
-        }
+        error: 'User session was not recognized.'
       });
       return;
     }
@@ -32,9 +30,7 @@ const isValidUsername = (req: Request, res: Response, next: NextFunction) => {
   const usernameRegex = /^\w+$/i;
   if (!usernameRegex.test(req.body.username)) {
     res.status(400).json({
-      error: {
-        username: 'Username must be a nonempty alphanumeric string.'
-      }
+      error: 'Username must be a nonempty alphanumeric string.'
     });
     return;
   }
@@ -49,9 +45,7 @@ const isValidPassword = (req: Request, res: Response, next: NextFunction) => {
   const passwordRegex = /^\S+$/;
   if (!passwordRegex.test(req.body.password)) {
     res.status(400).json({
-      error: {
-        password: 'Password must be a nonempty string.'
-      }
+      error: 'Password must be a nonempty string.'
     });
     return;
   }

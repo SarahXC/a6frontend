@@ -12,6 +12,7 @@
         <header>
           <h2>Welcome @{{ $store.state.username }}</h2>
         </header>
+        <img src= "@/components/Home/sadface.jpeg" alt="sad face">
         <h4> You do not have enough Fritter points to post content yet. Earn Fritter points by gaining followers! </h4>
       </section>
       <section v-else>

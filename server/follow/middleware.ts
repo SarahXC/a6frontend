@@ -12,9 +12,7 @@ const isFollowExists = async (req: Request, res: Response, next: NextFunction) =
   const follow = await FollowCollection.findOne(currentUser._id, followedUser._id);
   if (!follow) {
     res.status(404).json({
-      error: {
-        followNotFound: `You are not following this user. You cannot unfollow.`
-      }
+      error: `You are not following this user. You cannot unfollow.`
     });
     return;
   }
@@ -32,9 +30,7 @@ const isFollowNotExists = async (req: Request, res: Response, next: NextFunction
   const follow = await FollowCollection.findOne(currentUser._id, followedUser._id);
   if (follow) {
     res.status(404).json({
-      error: {
-        followNotFound: `You are already following this user. You cannot follow.`
-      }
+      error: `You are already following this user. You cannot follow.`
     });
     return;
   }
@@ -49,9 +45,7 @@ const isFollowNotExists = async (req: Request, res: Response, next: NextFunction
   const currentUser = await UserCollection.findOneByUserId(req.session.userId);
   if (currentUser.username == req.body.username) {
     res.status(405).json({
-      error: {
-        followNotFound: `You cannot follow yourself.`
-      }
+      error: `You cannot follow yourself.`
     });
     return;
   }
@@ -66,9 +60,7 @@ const isFollowNotExists = async (req: Request, res: Response, next: NextFunction
   const follow = await UserCollection.findOneByUsername(req.body.username as string); //TODO: should this be by ID or username
   if (!follow) {
     res.status(404).json({
-      error: {
-        followNotFound: `The user you are trying to follow does not exist.`
-      }
+      error: `The user you are trying to follow does not exist.`
     });
     return;
   }

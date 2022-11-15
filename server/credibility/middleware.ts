@@ -11,9 +11,7 @@ import CredibilityModel from './model';
   const user = await UserCollection.findOneByUsername(req.query.username as string);
   if (!user) {
     res.status(404).json({
-      error: {
-        userNotFound: `User with username ${req.query.username as string} does not exist.`
-      }
+      error: `User with username ${req.query.username as string} does not exist.`
     });
     return;
   }
@@ -29,9 +27,7 @@ import CredibilityModel from './model';
   const credibility = await CredibilityModel.findOne({user: user});
   if (!credibility) {
     res.status(405).json({
-      error: {
-        followNotFound: `This person does not have a credibility score.`
-      }
+      error: `This person does not have a credibility score.`
     });
     return;
   }

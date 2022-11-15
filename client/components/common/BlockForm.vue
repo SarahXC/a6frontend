@@ -2,6 +2,9 @@
 <!-- This is just an example; feel free to define any reusable components you want! -->
 
 <template>
+  <article
+    class="form"
+  >
   <form @submit.prevent="submit">
     <h3>{{ title }}</h3>
     <article
@@ -45,6 +48,7 @@
       </article>
     </section>
   </form>
+</article>
 </template>
 
 <script>
@@ -123,7 +127,16 @@ export default {
 </script>
 
 <style scoped>
-form {
+
+.form {
+    border: 1px solid #111;
+    padding: 30px;
+    position: relative;
+    background-color: lightskyblue;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+/* form {
   border: 1px solid #111;
   padding: 0.5rem;
   display: flex;
@@ -131,7 +144,7 @@ form {
   justify-content: space-between;
   margin-bottom: 14px;
   position: relative;
-}
+} */
 
 article > div {
   display: flex;

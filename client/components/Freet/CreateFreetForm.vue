@@ -15,6 +15,9 @@ export default {
         {id: 'content', label: 'Content', value: ''},
         {id: 'category', label: 'Category (politics/entertainment/sports/news)', value: ''} 
       ],
+      // categories: [
+      // {id: 'bleh', items: ['hi', 'bye']},
+      // ]
       title: 'Create a freet',
       //TODO: implement checkCategory: true, 
       buttonText: 'post',
