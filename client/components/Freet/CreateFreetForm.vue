@@ -13,7 +13,7 @@ export default {
       hasBody: true,
       fields: [
         {id: 'content', label: 'Content', value: ''},
-        {id: 'category', label: 'Category', value: ''} 
+        {id: 'category', label: 'Category (politics/entertainment/sports/news)', value: ''} 
       ],
       title: 'Create a freet',
       //TODO: implement checkCategory: true, 
@@ -24,7 +24,7 @@ export default {
         const message = 'Successfully created a freet!';
         this.$set(this.alerts, message, 'success');
         setTimeout(() => this.$delete(this.alerts, message), 3000);
-        
+
       }
     };
   }

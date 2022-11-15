@@ -7,13 +7,12 @@
   >
     <header>
       <h3 class="author">
-        @{{ freet.author }}
-      </h3>
-      <router-link
-      to="/users/${this.freet.author}"
-      >
+        <router-link
+        :to="`/users/${this.freet.author}`"
+        >
         @{{ freet.author }}
       </router-link>
+      </h3>
       <div
         v-if="$store.state.username === freet.author"
         class="actions"
