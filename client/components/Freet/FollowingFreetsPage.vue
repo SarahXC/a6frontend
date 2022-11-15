@@ -12,6 +12,19 @@
       <header>
         <div class="left">
           <h2>
+            Check out who else is on Fritter
+          </h2>
+          <FollowComponent
+          v-for="username in ['howdy', 'heyooo']"
+          :username="username"
+        />
+        </div>
+        <div class="right">
+        </div>
+      </header>
+      <header>
+        <div class="left">
+          <h2>
             Viewing freets from accounts you're following
             <span v-if="$store.state.filter">
               by @{{ $store.state.filter }}
@@ -41,13 +54,14 @@
 </template>
 
 <script>
+import FollowComponent from '@/components/Follow/FollowComponent.vue';
 import FreetComponent from '@/components/Freet/FreetComponent.vue';
 import CreateFreetForm from '@/components/Freet/CreateFreetForm.vue';
 import GetFreetsForm from '@/components/Freet/GetFreetsForm.vue';
 
 export default {
   name: 'FreetPage',
-  components: {FreetComponent, GetFreetsForm, CreateFreetForm}, 
+  components: {FollowComponent, FreetComponent, GetFreetsForm, CreateFreetForm}, 
   computed: {
     followedFreets() {
       const allFollows = this.$store.state.follows;
@@ -63,9 +77,9 @@ export default {
     }
   },
 
-  // mounted() {
-  //   this.$refs.getFreetsForm.submit();
-  // }
+  mounted() {
+    this.$refs.getFreetsForm.submit();
+  }
 };
 </script>
 
