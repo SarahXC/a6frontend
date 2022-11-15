@@ -6,14 +6,13 @@
     <section>
       <header>
         <h2> @{{username}}</h2>
-      </header>
-
-      <header>
-        <h2> Freets</h2>
-      </header>
       <FollowUserComponent
         :username="username"
       />
+      </header>
+      <header>
+        <h2> Freets</h2>
+      </header>
       <FreetComponent
           v-for="freet in getFreetsByUser(username)"
           :key="freet.id"

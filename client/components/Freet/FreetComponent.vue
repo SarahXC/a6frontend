@@ -9,6 +9,11 @@
       <h3 class="author">
         @{{ freet.author }}
       </h3>
+      <router-link
+      to="/users/${this.freet.author}"
+      >
+        @{{ freet.author }}
+      </router-link>
       <div
         v-if="$store.state.username === freet.author"
         class="actions"
@@ -67,6 +72,7 @@ export default {
   data() {
     return {
       editing: false, // Whether or not this freet is in edit mode
+      authorRoute: '/users/' + this.freet.author,
       draft: this.freet.content, // Potentially-new content for this freet
       alerts: {} // Displays success/error messages encountered during freet modification
     };
@@ -125,7 +131,7 @@ export default {
     async request(params) {
       /**
        * Submits a request to the freet's endpoint
-       * @param params - Options for the request
+      //  * @param params - Options for the request
        * @param params.body - Body for the request, if it exists
        * @param params.callback - Function to run if the the request succeeds
        */
@@ -159,7 +165,10 @@ export default {
 <style scoped>
 .freet {
     border: 1px solid #111;
-    padding: 20px;
+    padding: 10px;
     position: relative;
+    background-color: blanchedalmond;
+    margin-bottom: 20px;
+    border-radius: 20px;
 }
 </style>

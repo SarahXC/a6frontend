@@ -8,42 +8,17 @@
       </header>
       <CreateFreetForm />
     </section>
-    <section v-else-if="$store.state.username"> 
-      <header>
-        <h2>Welcome @{{ $store.state.username }}</h2>
-      </header>
-      <h4> You do not have enough Fritter points to post content yet. Earn Fritter points by gaining followers! </h4>
-    </section>
-    <section v-else>
-      <header>
-        <h2>Welcome to Fritter!</h2>
-      </header>
-      <article>
-        <h3>
-          <router-link to="/login">
-            Sign in
-          </router-link>
-          to create and delete freets.
-        </h3>
-      </article>
-    </section>
     <section>
       <header>
         <div class="left">
           <h2>
             Viewing all freets
-            <span v-if="$store.state.filter">
-              by @{{ $store.state.filter }}
-            </span>
           </h2>
         </div>
-        <div class="right">
-          <GetFreetsForm
-            ref="getFreetsForm"
-            value="author"
-            placeholder="🔍 Filter by author (optional)"
-            button="🔄 Get freets"
-          />
+      <div class="left">
+          <h4>
+            Based on your feed preferences.
+          </h4>
         </div>
       </header>
       <section
@@ -53,6 +28,7 @@
           v-for="freet in showedFreets"
           :key="freet.id"
           :freet="freet"
+
         />
       </section>
       <article

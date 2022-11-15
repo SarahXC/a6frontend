@@ -18,6 +18,8 @@ const store = new Vuex.Store({
     //TODO: add likes and can do it based on freets 
     likes: [], //all of the likes
     follows: [],
+    // isFollowing: [], // all the accounts the signed in user is following
+    // followedBy: [] // all the accounts that follow the signed in user
   },
   mutations: {
     alert(state, payload) {
@@ -29,6 +31,12 @@ const store = new Vuex.Store({
         Vue.delete(state.alerts, payload.message);
       }, 3000);
     },
+    // setIsFollowing(state, isFollowing) { 
+    //   state.isFollowing = isFollowing;
+    // },
+    // setFollowedBy(state, followedBy) { 
+    //   state.followedBy = followedBy;
+    // },
     setCategories(state, categories) { 
       /**
        * @param categories - categories of freets to show
@@ -112,19 +120,6 @@ const store = new Vuex.Store({
       })
       state.freets = newFreets;
     },
-    // updateFollows(state, followId){ //NEW
-    //   const newFollows = state.follows.map(follow => {
-    //     if (follow._id === followId) {
-    //       return {
-    //         ...follow,
-    //         numFollows: follow.numFollows + 1,
-    //       };
-    //     }
-    //     return follow;
-    //   })
-    //   state.follows = newFollows;
-    // }
-
   },
   actions: {
     async getUser(state) {
@@ -140,9 +135,30 @@ const store = new Vuex.Store({
         await state.dispatch('getCredibility');
         await state.dispatch('getLikes');
         await state.dispatch('getFollows');
+        // await state.dispatch('getIsFollowing');
+        // await state.dispatch('getFollowedBy');
       }
       // state.alerts = {};
     },
+    // async getIsFollowing(state) {
+    //   const r = await fetch('/api/follows/followings', {
+    //     credentials: 'same-origin',
+    //   });
+    //   const res = await r.json();
+    //   const isFollowing = res.isFollowing;
+    //   // console.log(categories);
+    //   state.commit('setIsFollowing', isFollowing ? isFollowing : null);  
+    // },
+
+    // async getFollowedBy(state) {
+    //   const r = await fetch('/api/follows/followers', {
+    //     credentials: 'same-origin',
+    //   });
+    //   const res = await r.json();
+    //   const followedBy = res.followedBy;
+    //   console.log(followedBy);
+    //   state.commit('setFollowedBy', followedBy ? followedBy : null);  
+    // },
 
     async getCategories(state) {
       const r = await fetch('/api/adjustfeeds/breakdown', {
@@ -170,7 +186,7 @@ const store = new Vuex.Store({
       });
       const res = await r.json();
       const likes = res;
-      console.log(likes);
+      console.log("likes is: ", likes);
       state.commit('setLikes', likes ? likes : []);  
     },
 
@@ -180,7 +196,7 @@ const store = new Vuex.Store({
       });
       const res = await r.json();
       const follows = res;
-      console.log(follows);
+      console.log("follows is : ", follows);
       state.commit('setFollows', follows ? follows : []);  
     }
 

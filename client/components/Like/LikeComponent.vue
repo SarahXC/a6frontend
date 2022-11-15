@@ -76,7 +76,7 @@ export default {
           this.$store.commit('alert', {
             message: 'Successfully liked freet!', status: 'success'
           });
-          setTimeout(() => this.$delete(this.alerts, error), 3000);
+          // setTimeout(() => this.$delete(this.alerts, error), 3000);
           this.$store.commit('updateLikes', this.freet._id);
         }
       };
@@ -93,7 +93,7 @@ export default {
           this.$store.commit('alert', {
             message: 'Successfully unliked freet!', status: 'success'
           });
-          setTimeout(() => this.$delete(this.alerts, error), 3000);
+          // setTimeout(() => this.$delete(this.alerts, error), 3000);
         }
       };
       this.request(params);

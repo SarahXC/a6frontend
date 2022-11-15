@@ -61,7 +61,7 @@ class FollowCollection {
    */
    static async findAll(): Promise<Array<HydratedDocument<Follow>>> {
     // Retrieves freets and sorts them from most to least recent
-    return FollowModel.find({}).sort({dateFollowed: -1}); 
+    return FollowModel.find({}).sort({dateFollowed: -1}).populate(['follower','followed']);
   }
 
   /**

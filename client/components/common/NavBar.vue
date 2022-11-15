@@ -14,6 +14,12 @@
       <router-link to="/">
         Home
       </router-link>
+      <router-link to="/feed">
+        Explore
+      </router-link>
+      <router-link to="/following">
+        Following
+      </router-link>
       <router-link
         v-if="$store.state.username"
         to="/account"

@@ -13,6 +13,7 @@ export default {
       hasBody: true,
       fields: [
         {id: 'password', label: 'Password', value: ''}
+
       ],
       title: 'Change password',
       buttonText: 'change',

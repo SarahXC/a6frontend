@@ -55,8 +55,8 @@ export default {
        * Returns whether the user is already follow the user
        */
       const follows = this.$store.state.follows;
-      // console.log(follows);
-      return follows.filter(f => ((f.follower == this.$store.state.username) && (f.following == this.username))).length == 1;
+      console.log(JSON.stringify(follows))
+      return follows.filter(f => ((f.follower == this.$store.state.username) && (f.followed == this.username))).length == 1;
     },
     followUser() {
       const params = {
@@ -73,6 +73,7 @@ export default {
         }
       };
       this.request(params);
+      this.$store.commit('refreshFollows');
       this.$store.commit('refreshFollows');
     },
     unfollowUser() {

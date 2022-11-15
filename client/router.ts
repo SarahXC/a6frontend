@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import FreetsPage from './components/Freet/FreetsPage.vue';
+import HomePage from './components/Home/HomePage.vue';
+import ExploreFreetsPage from './components/Freet/ExploreFreetsPage.vue';
+import FollowingFreetsPage from './components/Freet/FollowingFreetsPage.vue';
 import AccountPage from './components/Account/AccountPage.vue';
 import LoginPage from './components/Login/LoginPage.vue';
 import AdjustfeedPage from './components/Adjustfeed/AdjustfeedPage.vue';
@@ -11,7 +13,9 @@ import store from './store';
 Vue.use(VueRouter);
 
 const routes = [
-  {path: '/', name: 'Home', component: FreetsPage},
+  {path: '/', name: 'Home', component: HomePage},
+  {path: '/feed', name: 'Explore', component: ExploreFreetsPage},
+  {path: '/following', name: 'Following', component: FollowingFreetsPage},
   {path: '/account', name: 'Account', component: AccountPage},
   {path: '/login', name: 'Login', component: LoginPage},
   {path: '/adjustfeeds', name: 'Adjust Feed', component: AdjustfeedPage},

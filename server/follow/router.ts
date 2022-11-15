@@ -16,22 +16,13 @@ const router = express.Router();
  * @return {FreetResponse[]} - A list of all the freets sorted in descending
  *                      order by date modified
  */
-/**
- * Get freets by author.
- *
- * @name GET /api/freets?authorId=id
- *
- * @return {FreetResponse[]} - An array of freets created by user with id, authorId
- * @throws {400} - If authorId is not given
- * @throws {404} - If no user has given authorId
- *
- */
  router.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
 
     const allFollows = await FollowCollection.findAll();
     const response = allFollows.map(util.constructFollowResponse);
+    console.log("follow response", response);
     res.status(200).json(response);
   }
 );
@@ -80,7 +71,7 @@ router.get(
 /**
  * Create a new follow.
  *
- * @name POST /api/follow
+ * @name POST /api/follows
  *
  * @param {string} followed - who the current user wants to follow
  * @return {FollowResponse} - The created follow
