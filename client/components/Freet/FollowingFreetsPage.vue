@@ -79,6 +79,9 @@ export default {
 
   mounted() {
     this.$refs.getFreetsForm.submit();
+    this.$store.commit('refreshFreets');
+    this.$store.commit('refreshLikes');
+    this.$store.commit('refreshFollows');
   }
 };
 </script>
