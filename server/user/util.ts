@@ -35,6 +35,7 @@ const constructUserResponse = (user: HydratedDocument<User>): UserResponse => {
   return {
     ...userCopy,
     _id: userCopy._id.toString(),
+    username: userCopy.username,
     dateJoined: formatDate(user.dateJoined)
   };
 };

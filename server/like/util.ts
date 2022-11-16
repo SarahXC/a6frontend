@@ -32,7 +32,7 @@ const constructLikeResponse = (like: HydratedDocument<Like>): LikeResponse => {
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  return {
+return {
     postedBy: likeCopy.userPost.username, 
     userLike: likeCopy.userLike.username, 
     postContent: likeCopy.post.content,

@@ -6,12 +6,8 @@
     class="follow"
   >     
         <h3>
-          <router-link
-          :to="`/users/${username}`"
-          >
-        </router-link>
+         @{{ username }}
         </h3>
-
         <button
           v-if="!isFollowing() && !ownAccount()"
           @click="followUser"
@@ -138,7 +134,11 @@ export default {
 <style scoped>
 .follow {
     /* border: 1px solid #111; */
-    padding: 5px;
-    position: relative;
+    border: 1px solid #111;
+    padding: 10px;
+    background-color: lightskyblue;
+    margin-bottom: 20px;
+    margin: 10px;
 }
 </style>
+

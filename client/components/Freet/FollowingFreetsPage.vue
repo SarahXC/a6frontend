@@ -14,10 +14,12 @@
           <h2>
             Check out who else is on Fritter
           </h2>
-          <FollowComponent
-          v-for="username in ['howdy', 'heyooo']"
+        </div>
+        <div class="left">
+          <!-- <FollowComponent
+          v-for="username in allUsers()"
           :username="username"
-        />
+          /> -->
         </div>
         <div class="right">
         </div>
@@ -74,14 +76,22 @@ export default {
       }
       console.log('isFollowing:', isFollowing);
       return this.$store.state.freets.filter(f => isFollowing.includes(f.author));
+    },
+    allUsers(){
+      let userList = []
+      for (const user of this.$store.state.users){
+        userList.push(user.username);
+      }
+      console.log("list of users", userList);
+      return userList;
     }
   },
 
   mounted() {
     this.$refs.getFreetsForm.submit();
-    this.$store.commit('refreshFreets');
-    this.$store.commit('refreshLikes');
-    this.$store.commit('refreshFollows');
+    // this.$store.commit('refreshFreets');
+    // this.$store.commit('refreshLikes');
+    // this.$store.commit('refreshFollows');
   }
 };
 </script>

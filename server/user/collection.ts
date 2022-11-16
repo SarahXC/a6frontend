@@ -75,6 +75,11 @@ class UserCollection {
     });
   }
 
+     static async findAll(): Promise<Array<HydratedDocument<User>>> {
+      // Retrieves freets and sorts them from most to least recent
+      return UserModel.find({}).sort({dateModified: -1});
+    }
+
   /**
    * Update user's information
    *

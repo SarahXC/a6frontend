@@ -7,6 +7,19 @@ import * as util from './util';
 
 const router = express.Router();
 
+/***
+ * Get all of the users
+ */
+
+router.get(
+  '/',
+  [],
+    async (req: Request, res: Response) => {
+      const allUsers = await UserCollection.findAll();
+      const response = allUsers.map(util.constructUserResponse);
+      res.status(200).json(response);
+  } 
+);
 
 router.get(
   '/session',
